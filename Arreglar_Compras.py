@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 from tkinter.messagebox import showinfo
+from tkinter.filedialog import askopenfilename
+
 
 # Ruta del archivo Excel con la lista de proveedores
 ruta_proveedores_excel = 'PROVEEDORES.xlsx'
@@ -15,7 +17,7 @@ df_proveedores_Origen_Destino['CUIT'] = df_proveedores_Origen_Destino['CUIT'].as
 
 
 # Ruta donde se encuentra al archivo CSV de AFIP
-ruta_completa = 'comprobantes_compras.csv'
+ruta_completa = askopenfilename(title='Seleccione el archivo CSV de AFIP', filetypes=[('CSV', '*.csv')])
 
 # DataFrame con datos originales
 df = pd.read_csv(ruta_completa, sep=';', header=0)
@@ -42,6 +44,6 @@ for row in range(len(df_merged)):
 df_merged.drop(['ORIGEN', 'DESTINO', 'CUIT'], axis=1, inplace=True)
 
 # Guardar el DataFrame actualizado en un nuevo archivo CSV si es necesario
-df_merged.to_csv('comprobantes_compras_Actualizado.csv', sep=';', index=False , decimal=',')
+df_merged.to_csv(ruta_completa.replace(".csv" , "_Actualizado.csv"), sep=';', index=False , decimal=',')
 
 showinfo('Información', 'El archivo se ha actualizado correctamente')
