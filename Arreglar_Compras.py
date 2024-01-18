@@ -9,11 +9,9 @@ ruta_proveedores_excel = 'PROVEEDORES.xlsx'
 
 # Leer las columnas ORIGEN y DESTINO de la hoja 1 del archivo Excel
 df_proveedores_Origen_Destino = pd.read_excel(ruta_proveedores_excel, sheet_name='Hoja1', usecols=['CUIT', 'ORIGEN', 'DESTINO'])
-
 df_proveedores_Origen_Destino['ORIGEN'] = df_proveedores_Origen_Destino['ORIGEN'].astype(str)
 df_proveedores_Origen_Destino['DESTINO'] = df_proveedores_Origen_Destino['DESTINO'].astype(str)
 df_proveedores_Origen_Destino['CUIT'] = df_proveedores_Origen_Destino['CUIT'].astype(np.int64)
-
 
 
 # Ruta donde se encuentra al archivo CSV de AFIP
@@ -21,8 +19,6 @@ ruta_completa = askopenfilename(title='Seleccione el archivo CSV de AFIP', filet
 
 # DataFrame con datos originales
 df = pd.read_csv(ruta_completa, sep=';', header=0)
-
-
 
 # si el CUIT de df se encuentra en el CUIT de df_proveedores_Origen_Destino, entonces reemplazar el valor de la columna ORIGEN del df por el de la columna DESTINO del df (ORIGEN y DESTINO se encuentran en df_proveedores_Origen_Destino)
 # Combinar DataFrames en función del CUIT
@@ -45,5 +41,6 @@ df_merged.drop(['ORIGEN', 'DESTINO', 'CUIT'], axis=1, inplace=True)
 
 # Guardar el DataFrame actualizado en un nuevo archivo CSV si es necesario
 df_merged.to_csv(ruta_completa.replace(".csv" , "_Actualizado.csv"), sep=';', index=False , decimal=',')
+
 
 showinfo('Información', 'El archivo se ha actualizado correctamente')
